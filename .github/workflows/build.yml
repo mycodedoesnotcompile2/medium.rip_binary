@@ -20,7 +20,7 @@ jobs:
         $APT_PARAMS update
         $APT_PARAMS install curl git
         curl -fsSL https://get.pnpm.io/install.sh | sh -
-        source /root/.bashrc
+        source /home/runner/.bashrc
 
     - name: Build 
       run: |
