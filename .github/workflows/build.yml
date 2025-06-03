@@ -25,7 +25,8 @@ jobs:
     - name: Build 
       run: |
         cd /tmp/
-        $PNPM_BIN='/home/runner/.local/share/pnpm/pnpm'
+        source /home/runner/.bashrc
+        $PNPM_BIN="/home/runner/.local/share/pnpm/pnpm"
         git clone "https://github.com/SphericalKat/medium.rip.git"
         
         cd "/tmp/medium.rip/frontend/"
