@@ -31,9 +31,9 @@ jobs:
         
         cd "/tmp/medium.rip/frontend/"
         mv postcss.config.ts postcss.config.cjs
-        pnpm i
-        pnpm approve-builds
-        pnpm run build
+        /home/runner/.local/share/pnpm i
+        /home/runner/.local/share/pnpm approve-builds
+        /home/runner/.local/share/pnpm run build
 
         cd "/tmp/medium.rip/"
         go mod download
