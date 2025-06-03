@@ -16,4 +16,30 @@ jobs:
     - name: Install prerequisites
       run: |
         cd /tmp/
+        APT_PARAMS='sudo apt -y -qq -o=Dpkg::Use-Pty=0'
+        $APT_PARAMS update
+        $APT_PARAMS install curl git
+        curl -fsSL https://get.pnpm.io/install.sh | sh -
+        source /root/.bashrc
+
+    - name: Build 
+      run: |
+        cd /tmp/
+        git clone "https://github.com/SphericalKat/medium.rip.git"
+        
+        cd "/tmp/medium.rip/frontend/"
+        mv postcss.config.ts postcss.config.cjs
+        pnpm i
+        pnpm approve-builds
+        pnpm run build
+
+        cd "/tmp/medium.rip/"
+        go mod download
+        go build -ldflags='-w -s -extldflags "-static"' .
+        
+        ls -alh medium.rip && file medium.rip
+        
+        
+        
+        
         
