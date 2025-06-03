@@ -25,6 +25,13 @@ jobs:
       run: |
         cd /tmp/
         
+        RELEASE_DATE="$(date '+%Y%m%d')"
+        RELEASE_FILE="/tmp/medium.rip/medium.rip"
+        HASH_VALUE="/tmp/medium.rip.sha256"
+        echo "RELEASE_DATE=$RELEASE_DATE" >> $GITHUB_ENV
+        echo "HASH_VALUE=$HASH_VALUE" >> $GITHUB_ENV
+        echo "RELEASE_FILE=$RELEASE_FILE" >> $GITHUB_ENV
+        
         PNPM_BIN="/home/runner/.local/share/pnpm/pnpm"
         #git clone "https://github.com/SphericalKat/medium.rip.git"
         git clone "https://github.com/mycodedoesnotcompile2/medium.rip.git"
@@ -39,7 +46,16 @@ jobs:
         go mod download
         go build -ldflags='-w -s -extldflags "-static"' .
         
-        ls -alh medium.rip && file medium.rip
-        
+        ls -alh $RELEASE_FILE && file $RELEASE_FILE && chmod o+x $RELEASE_FILE
+        sha256sum --tag $RELEASE_FILE | tee -a $HASH_VALUE
+
+    - name: Create a new Github release
+      uses: softprops/action-gh-release@v2
+      with:
+        body_path: ${{ env.HASH_VALUE }}
+        name: ${{ env.RELEASE_DATE }}
+        tag_name: ${{ env.RELEASE_DATE }}
+        files: |
+          ${{ env.RELEASE_FILE }}
         
         
