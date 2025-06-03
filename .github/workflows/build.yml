@@ -25,15 +25,14 @@ jobs:
     - name: Build 
       run: |
         cd /tmp/
-        source /home/runner/.bashrc
-        
+        $PNPM_BIN='/home/runner/.local/share/pnpm/pnpm'
         git clone "https://github.com/SphericalKat/medium.rip.git"
         
         cd "/tmp/medium.rip/frontend/"
         mv postcss.config.ts postcss.config.cjs
-        /home/runner/.local/share/pnpm i
-        /home/runner/.local/share/pnpm approve-builds
-        /home/runner/.local/share/pnpm run build
+        $PNPM_BIN i
+        $PNPM_BIN approve-builds
+        $PNPM_BIN run build
 
         cd "/tmp/medium.rip/"
         go mod download
